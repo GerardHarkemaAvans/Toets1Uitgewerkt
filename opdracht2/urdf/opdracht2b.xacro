@@ -1,0 +1,44 @@
+<?xml version="1.0" ?>
+<robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- world -->
+  <link name="world" />
+
+  <!-- workshop -->
+  <xacro:include filename="$(find toets_support)/urdf/workshop/workshop.urdf.xacro"/>
+  <xacro:workshop_urdf workshop_parent="world_interface"/>
+
+
+  <!-- Joints -->
+  <joint name="world_interface_to_world" type="fixed">
+    <parent link="world" />
+    <child link="world_interface" />
+  </joint>
+
+  <!-- hall -->
+  <xacro:include filename="$(find toets_support)/urdf/hall/hall.urdf.xacro"/>
+  <xacro:hall_urdf hall_parent="world"  hall_prefix="hall_" >
+    <origin xyz="-2.5 0 0.0" rpy="0 0 0"/>
+  </xacro:hall_urdf>
+
+
+  <material name="green">
+    <color rgba="0 1 0 1"/>
+  </material>
+
+  <link name="sphere">
+    <visual>
+       <geometry>
+         <sphere radius="0.2"/>
+       </geometry>
+       <origin rpy="0 0 0" xyz="0 0 0.2"/>
+       <material name="green"/>
+     </visual>
+   </link>
+   <joint name="world_interface_to_sphere" type="fixed">
+     <parent link="world_interface"/>
+     <child link="sphere"/>
+     <origin xyz="-4 0 0"/>
+   </joint>
+
+</robot>
