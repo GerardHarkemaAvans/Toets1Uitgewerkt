@@ -13,7 +13,7 @@
   <joint name="world_interface_to_world" type="fixed">
     <parent link="world" />
     <child link="world_interface" />
-    <origin xyz="1 0 0.0" rpy="0 0 0"/>
+    <origin xyz="0 0 0.0" rpy="0 0 0"/>
   </joint>
 
   <!-- hall -->
@@ -21,6 +21,12 @@
   <xacro:hall_urdf hall_parent="world_interface"  hall_prefix="hall_" >
     <origin xyz="-2.5 0 0.0" rpy="0 0 0"/>
   </xacro:hall_urdf>
+
+  <!-- pallet -->
+  <xacro:include filename="$(find toets_support)/urdf/pallet/pallet.urdf.xacro"/>
+  <xacro:pallet_urdf pallet_parent="world_interface" pallet_prefix="pallet_">
+    <origin xyz="-5 2 0.0" rpy="0 0 0"/>
+  </xacro:pallet_urdf>
 
   <!-- Robot1 Pedestal -->
   <xacro:include filename="$(find toets_support)/urdf/robot_pedestal/robot_pedestal.urdf.xacro"/>
@@ -40,18 +46,11 @@
   <xacro:include filename="$(find toets_support)/urdf/bin/bin.urdf.xacro"/>
   <xacro:bin_urdf prefix="bin_1_"/>
 
-
   <!-- robot1-pedestal to world. -->
   <joint name="robot1_pedestal_to_world_interface" type="fixed">
-<!--
-    <parent link="world_interface" />
-    <child link="robot1_pedestal_link" />
-    <origin xyz="-4 0 0.0" rpy="0 0.0 0.0"/>
-
--->
     <parent link="world" />
     <child link="robot1_pedestal_link" />
-    <origin xyz="0 0 0.0" rpy="0 0.0 0.0"/>
+    <origin xyz="-4 0 0.0" rpy="0 0.0 0.0"/>
 
   </joint>
 

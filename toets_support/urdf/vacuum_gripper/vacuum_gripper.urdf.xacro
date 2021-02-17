@@ -55,9 +55,16 @@
 
     <!-- joint list -->
     <joint name="${joint_prefix}" type="fixed">
-      <origin xyz="0 0 0.01" rpy="0 0 0" />
+      <origin xyz="0 0 0.08" rpy="0 0 0" />
       <parent link="${prefix}base_link" />
       <child link="${prefix}suction_cup" />
     </joint>
+
+  <gazebo reference="${prefix}suction_cup">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+
   </xacro:macro>
+
 </robot>

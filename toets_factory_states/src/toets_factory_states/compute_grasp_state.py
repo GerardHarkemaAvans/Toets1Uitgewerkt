@@ -154,7 +154,6 @@ class ComputeGraspState(EventState):
 		#q_orig = [target_pose.pose.orientation.x, target_pose.pose.orientation.y, target_pose.pose.orientation.z, target_pose.pose.orientation.w]
 		q_orig = [0, 0, 0, 1]
 		q_rot = quaternion_from_euler(self._rotation, 0, 0)
-		#q_rot = quaternion_from_euler(math.pi/-2.0, 0, 0)
 		res_q = quaternion_multiply(q_rot, q_orig)
 		target_pose.pose.orientation = geometry_msgs.msg.Quaternion(*res_q)
 

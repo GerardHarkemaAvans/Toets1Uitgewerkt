@@ -46,6 +46,7 @@ class MoveitToJointsDynState(EventState):
 
 		self._move_group = move_group
 		self._joint_names = None
+		self._joint_values = None
 
 		self._planning_failed = False
 		self._control_failed = False
@@ -80,25 +81,34 @@ class MoveitToJointsDynState(EventState):
 
 			
 	def on_enter(self, userdata):
+		rospy.loginfo(userdata.joint_names)
+		rospy.loginfo(userdata.joint_values)
+
 		self._planning_failed = False
 		self._control_failed = False
 		self._success = False
 
 		self._joint_names = userdata.joint_names
-
+		self._joint_values = userdata.joint_values
+        # Action Initialization
 		action_goal = MoveGroupGoal()
 		action_goal.request.group_name = self._move_group
+		action_goal.request.allowed_planning_time = 1.0
 		goal_constraints = Constraints()
 		for i in range(len(self._joint_names)):
-			goal_constraints.joint_constraints.append(JointConstraint(joint_name=self._joint_names[i], position=userdata.joint_values[i]))
+				goal_constraints.joint_constraints.append(JointConstraint(
+					joint_name=self._joint_names[i],
+					position=self._joint_values[i], 
+					weight=1.0))
 		action_goal.request.goal_constraints.append(goal_constraints)
 
 		try:
 			self._client.send_goal(self._action_topic, action_goal)
+			#userdata.action_topic = self._action_topic  # Save action topic to output key
 		except Exception as e:
 			Logger.logwarn('Failed to send action goal for group: %s\n%s' % (self._move_group, str(e)))
 			self._planning_failed = True
-			
+
 
 	def on_stop(self):
 		try:

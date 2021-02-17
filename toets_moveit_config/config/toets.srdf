@@ -30,10 +30,10 @@
         <joint name="robot1_wrist_3_joint" value="0" />
     </group_state>
     <group_state name="R1PreGrasp" group="robot1">
-        <joint name="robot1_elbow_joint" value="1.1147" />
-        <joint name="robot1_shoulder_lift_joint" value="-1.0742" />
-        <joint name="robot1_shoulder_pan_joint" value="1.8444" />
-        <joint name="robot1_wrist_1_joint" value="-1.57" />
+        <joint name="robot1_elbow_joint" value="1.12" />
+        <joint name="robot1_shoulder_lift_joint" value="-0.75" />
+        <joint name="robot1_shoulder_pan_joint" value="1.88" />
+        <joint name="robot1_wrist_1_joint" value="-1.88" />
         <joint name="robot1_wrist_2_joint" value="-1.57" />
         <joint name="robot1_wrist_3_joint" value="0" />
     </group_state>

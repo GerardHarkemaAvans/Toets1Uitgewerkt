@@ -11,7 +11,7 @@
   <!-- hall -->
   <xacro:include filename="$(find toets_support)/urdf/hall/hall.urdf.xacro"/>
   <xacro:hall_urdf hall_prefix="hall_" hall_parent="world_interface">
-    <origin xyz="2.5 0 0.0" rpy="0 0 0"/>
+    <origin xyz="-2.5 0 0.0" rpy="0 0 0"/>
   </xacro:hall_urdf>
 
   <!-- Robot1 Pedestal -->
@@ -44,30 +44,10 @@
     <child link="world_interface" />
   </joint>
 
-  <!-- robot1-pedestal to world. -->
-<!--
-  <joint name="robot1_pedestal_to_world_interface" type="fixed">
-    <parent link="world_interface" />
-    <child link="robot1_pedestal_link" />
-    <origin xyz="4 0 0.0" rpy="0.0 0.0 0.0"/>
-  </joint>
--->
-  <!-- hall-pedestal to world. -->
-<!--
-  <joint name="hall_to_world_interface" type="fixed">
-    <parent link="world_interface" />
-    <child link="hall_link" />
-    <origin xyz="0 0 0.0" rpy="0.0 0.0 0.0"/>
-  </joint>
--->
-
   <!-- robot1 to pedestal. -->
   <joint name="robot1_to_pedestal" type="fixed">
-  <origin xyz="0 0 0.95" rpy="0 0 1.57" />
+  <origin xyz="0 0 0.95" rpy="0 0 -1.57" />
     <parent link="robot1_pedestal_link" />
-<!--
-  <parent link="world_interface" />
--->
   <child link="robot1_base_link" />
   </joint>
 

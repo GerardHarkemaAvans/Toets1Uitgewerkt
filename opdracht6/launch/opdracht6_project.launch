@@ -37,9 +37,14 @@
 
   <!-- Spawn the URDF objects into Gazebo -->
   <include file="$(find toets_gazebo)/launch/spawn_static_world_objects.launch"/>
+
+  <!-- Spawn the URDF obstacles objects into Gazebo -->
+  <include file="$(find toets_gazebo)/launch/spawn_obstacles.launch"/>
+
   <include file="$(find toets_gazebo)/launch/spawn_robots.launch"/>
   <node pkg="toets_utilities" type="timed_roslaunch.sh" name="timed_roslaunch_turtlebot" output="screen"
     args="7 toets_gazebo spawn_turtlebot.launch" />
+
   <node pkg="toets_utilities" type="timed_roslaunch.sh" name="timed_roslaunch_parts" output="screen"
     args="7 toets_gazebo spawn_parts.launch" />
 
