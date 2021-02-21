@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <param name="robot_description" command="$(find xacro)/xacro '$(find opdracht2)/urdf/opdracht2c.xacro'" />
+  <param name="robot_description" command="$(find xacro)/xacro '$(find opdracht2)/urdf/environment1.xacro'" />
 
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
 
@@ -18,5 +18,5 @@
     </rosparam>
   </node>
 
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find opdracht2)/config/opdracht2c.rviz" required="true" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find opdracht2)/config/rviz_config1.rviz" required="true" />
 </launch>

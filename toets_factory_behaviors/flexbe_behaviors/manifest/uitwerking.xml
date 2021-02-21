@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<behavior name="Opdracht6Uitwerking">
+<behavior name="Uitwerking">
 
-	<executable package_path="flexbe_behaviors.opdracht6uitwerking_sm" class="Opdracht6UitwerkingSM" />
+	<executable package_path="flexbe_behaviors.uitwerking_sm" class="UitwerkingSM" />
 	<tagstring></tagstring>
 	<author>Gerard Harkema</author>
 	<date>22 februari 2020</date>
 	<description>
-		Uitwerking van opdracht 6
+		Uitwerking van Flexbe machine
 	</description>
 
 

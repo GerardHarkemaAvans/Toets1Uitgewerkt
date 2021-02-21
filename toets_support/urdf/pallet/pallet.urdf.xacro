@@ -10,7 +10,7 @@
 
 
     <!-- Links -->
-<link name="${pallet_parent}"/>
+    <link name="${pallet_parent}"/>
     <link name="${pallet_prefix}origin">
       <visual>
         <geometry>

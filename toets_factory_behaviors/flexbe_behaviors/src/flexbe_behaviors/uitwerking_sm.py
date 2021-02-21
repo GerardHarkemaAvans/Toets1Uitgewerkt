@@ -26,15 +26,15 @@ from geometry_msgs.msg import Pose2D
 Created on 22 februari 2020
 @author: Gerard Harkema
 '''
-class Opdracht6UitwerkingSM(Behavior):
+class UitwerkingSM(Behavior):
 	'''
 	Uitwerking van opdracht 6
 	'''
 
 
 	def __init__(self):
-		super(Opdracht6UitwerkingSM, self).__init__()
-		self.name = 'Opdracht6Uitwerking'
+		super(UitwerkingSM, self).__init__()
+		self.name = 'Uitwerking'
 
 		# parameters of this behavior
 

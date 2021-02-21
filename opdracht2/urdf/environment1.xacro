@@ -22,11 +22,6 @@
     <origin xyz="-2.5 0 0.0" rpy="0 0 0"/>
   </xacro:hall_urdf>
 
-  <!-- pallet -->
-  <xacro:include filename="$(find toets_support)/urdf/pallet/pallet.urdf.xacro"/>
-  <xacro:pallet_urdf pallet_parent="world_interface" pallet_prefix="pallet_">
-    <origin xyz="-5 2 0.0" rpy="0 0 0"/>
-  </xacro:pallet_urdf>
 
   <!-- Robot1 Pedestal -->
   <xacro:include filename="$(find toets_support)/urdf/robot_pedestal/robot_pedestal.urdf.xacro"/>
