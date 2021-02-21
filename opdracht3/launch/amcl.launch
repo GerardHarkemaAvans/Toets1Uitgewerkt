@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <launch>
   <!-- Map server -->
   <arg name="map_file" default="$(env TURTLEBOT_GAZEBO_MAP_FILE)"/>
