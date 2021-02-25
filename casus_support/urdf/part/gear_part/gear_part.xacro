@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<robot name="gear_part" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:arg name="gear_part_parent_name" default="world_interface"/>
+  <!-- URDF -->
+  <xacro:include filename="$(find casus_support)/urdf/part/gear_part/gear_part.urdf.xacro"/>
+  <xacro:gear_part_urdf gear_part_parent="$(arg gear_part_parent_name)"/>
+
+  <!-- Gazebo -->
+  <xacro:include filename="$(find casus_support)/urdf/part/gear_part/gear_part.gazebo.xacro"/>
+</robot>

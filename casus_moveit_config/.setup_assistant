@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: casus_support
+    relative_path: urdf/casus.xacro
+    xacro_args: ""
+  SRDF:
+    relative_path: config/casus.srdf
+  CONFIG:
+    author_name: casus_instructors
+    author_email: casus@casus.com
+    generated_timestamp: 1612867644

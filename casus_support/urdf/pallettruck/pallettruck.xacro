@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<robot name="pallettruck" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:arg name="pallettruck_prefix" default="pallettruck_"/>
+  <xacro:arg name="pallettruck_parent" default="world_interface"/>
+
+  <xacro:arg name="x" default="0"/>
+  <xacro:arg name="y" default="0"/>
+  <xacro:arg name="z" default="0"/>
+  <xacro:arg name="Y" default="0"/>
+
+  <!-- URDF -->
+  <xacro:include filename="$(find casus_support)/urdf/pallettruck/pallettruck.urdf.xacro"/>
+  <xacro:pallettruck_urdf pallettruck_prefix="$(arg pallettruck_prefix)" pallettruck_parent="$(arg pallettruck_parent)">
+    <origin xyz="$(arg x) $(arg y) $(arg z)" rpy="0 0 $(arg Y)"/>
+  </xacro:pallettruck_urdf>
+
+  <!-- Gazebo -->
+  <xacro:include filename="$(find casus_support)/urdf/pallettruck/pallettruck.gazebo.xacro"/>
+</robot>

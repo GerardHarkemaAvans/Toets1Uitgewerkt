@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<robot name="workshop_urdf" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="workshop_urdf" params="workshop_parent">
+
+    <!-- Links -->
+    <link name="world_interface"/>
+    <link name="workshop">
+      <visual>
+        <geometry>
+          <mesh filename="package://casus_support/meshes/workshop/visual/workshop.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://casus_support/meshes/workshop/collision/workshop.dae"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <inertia ixx="1.0" ixy="0" ixz="0"
+                 iyy="1.0" iyz="0"
+                 izz="1.0" />
+        <mass value="100" />
+      </inertial>
+    </link>
+
+    <joint name="workshop_to_world_interface" type="fixed">
+      <parent link="${workshop_parent}" />
+      <child link="workshop" />
+      <origin xyz="0 0 0" rpy="0 0 -${radians(90)}" />
+    </joint>
+  </xacro:macro>
+</robot>

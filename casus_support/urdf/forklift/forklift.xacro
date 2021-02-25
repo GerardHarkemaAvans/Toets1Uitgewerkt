@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<robot name="forklift" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:arg name="forklift_prefix" default="forklift_"/>
+  <xacro:arg name="forklift_parent" default="world_interface"/>
+
+  <xacro:arg name="x" default="0"/>
+  <xacro:arg name="y" default="0"/>
+  <xacro:arg name="z" default="0"/>
+  <xacro:arg name="Y" default="0"/>
+
+  <!-- URDF -->
+  <xacro:include filename="$(find casus_support)/urdf/forklift/forklift.urdf.xacro"/>
+  <xacro:forklift_urdf forklift_prefix="$(arg forklift_prefix)" forklift_parent="$(arg forklift_parent)">
+    <origin xyz="$(arg x) $(arg y) $(arg z)" rpy="0 0 $(arg Y)"/>
+  </xacro:forklift_urdf>
+
+  <!-- Gazebo -->
+  <xacro:include filename="$(find casus_support)/urdf/forklift/forklift.gazebo.xacro"/>
+</robot>

@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<robot name="workshop" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:arg name="hall_prefix" default="hall"/>
+  <xacro:arg name="hall_parent" default="world_interface"/>
+  <xacro:arg name="width" default="11"/>
+  <xacro:arg name="depth" default="8"/>
+  <xacro:arg name="height" default="2"/>
+
+  <xacro:arg name="x" default="0"/>
+  <xacro:arg name="y" default="0"/>
+
+
+  <!-- URDF -->
+  <link name="world_interface"/>
+  <xacro:include filename="$(find casus_support)/urdf/hall/hall.urdf.xacro"/>
+  <xacro:hall_urdf hall_prefix="$(arg hall_prefix)" hall_parent="$(arg hall_parent)" width ="$(arg width)" depth ="$(arg depth)" height ="$(arg height)">
+    <origin xyz="$(arg x) $(arg y) 0" rpy="0 0 0"/>
+  </xacro:hall_urdf>
+</robot>

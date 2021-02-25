@@ -1,0 +1,6 @@
+<!--
+  Used for visualising the turtlebot while building a map or navigating with the ros navistack.
+ -->
+<launch>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find casus6)/rviz/rviz.rviz"/>
+</launch>

@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<robot name="pallet" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:arg name="pallet_prefix" default="pallet_"/>
+  <xacro:arg name="pallet_parent" default="world_interface"/>
+
+  <xacro:arg name="x" default="0"/>
+  <xacro:arg name="y" default="0"/>
+  <xacro:arg name="z" default="0"/>
+  <xacro:arg name="Y" default="0"/>
+
+  <!-- URDF -->
+  <xacro:include filename="$(find casus_support)/urdf/pallet/pallet.urdf.xacro"/>
+  <xacro:pallet_urdf pallet_prefix="$(arg pallet_prefix)" pallet_parent="$(arg pallet_parent)">
+    <origin xyz="$(arg x) $(arg y) $(arg z)" rpy="0 0 $(arg Y)"/>
+  </xacro:pallet_urdf>
+
+  <!-- Gazebo -->
+  <xacro:include filename="$(find casus_support)/urdf/pallet/pallet.gazebo.xacro"/>
+</robot>
