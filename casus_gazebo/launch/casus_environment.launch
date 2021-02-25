@@ -25,7 +25,7 @@
   <include file="$(find casus_support)/launch/load_casus.launch"/>
 
   <!-- Start move_group -->
-  <include file="$(find week4_moveit_config)/launch/move_group.launch"/>
+  <include file="$(find casus_moveit_config)/launch/move_group.launch"/>
 
   <!-- Spawn the URDF objects into Gazebo -->
   <include file="$(find casus_gazebo)/launch/spawn_static_world_objects.launch"/>
