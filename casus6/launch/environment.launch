@@ -11,6 +11,11 @@
   <arg name="extra_gazebo_args" default=""/>
 
   <!-- Localization -->
+  <arg name="initial_pose_x_gazebo" default="-1.5"/>
+  <arg name="initial_pose_y_gazebo" default="-1"/>
+
+
+  <!-- Localization -->
   <arg name="3d_sensor" default="$(env TURTLEBOT_3D_SENSOR)"/>  <!-- r200, kinect, asus_xtion_pro -->
   <arg name="initial_pose_x" default="0.0"/>
   <arg name="initial_pose_y" default="0.0"/>
@@ -48,6 +53,7 @@
   <node pkg="casus_utilities" type="timed_roslaunch.sh" name="timed_roslaunch_parts" output="screen"
     args="7 casus_gazebo spawn_parts.launch" />
 
+
   <!-- Velocity muxer and controller for turtlebot-->
   <node pkg="nodelet" type="nodelet" name="mobile_base_nodelet_manager" args="manager"/>
   <node pkg="nodelet" type="nodelet" name="cmd_vel_mux"
@@ -74,7 +80,7 @@
 
   <!-- Start localization, move_base and the map server -->
   <node name="map_server" pkg="map_server" type="map_server"
-    args="$(find casus6)/config/map_factory_v3.yaml" />
+    args="$(find casus6)/map/map.yaml" />
   <include file="$(find turtlebot_navigation)/launch/includes/move_base.launch.xml">
   </include>
   <param name="/move_base/DWAPlannerROS/xy_goal_tolerance" value="0.1" />
@@ -83,19 +89,17 @@
   <param name="/move_base/local_costmap/inflation_layer/inflation_radius" value="0.25"/>
 
   <!-- Localization AMCL -->
-  <!-- Not being used
   <include file="$(arg custom_amcl_launch_file)">
     <arg name="initial_pose_x" value="$(arg initial_pose_x)"/>
     <arg name="initial_pose_y" value="$(arg initial_pose_y)"/>
     <arg name="initial_pose_a" value="$(arg initial_pose_a)"/>
   </include>
 
-  -->
   <!-- Fake localization -->
   <node pkg="fake_localization" type="fake_localization" name="fake_localization" output="screen">
     <remap from="base_pose_ground_truth" to="/ground_truth/state" />
-    <param name="delta_x" value="-4.0" />
-    <param name="delta_y" value="-0.2" />
+    <param name="delta_x" value="0.0" />
+    <param name="delta_y" value="0.0" />
     <param name="delta_yaw" value="0.0" />
     <param name="global_frame_id" value="map" />
     <param name="base_frame_id" value="base_footprint" />
@@ -111,6 +115,9 @@
   <!-- added by gerard -->
   <node pkg="tf2_ros" type="static_transform_publisher" name="map_to_odom" args="-0.001 -0.000 -0.010 -0.000 -0.007 -0.003 1.000 map odom"/>
 
-  <node pkg="tf2_ros" type="static_transform_publisher" name="map_to_world" args="4.0 0.2 0 0 0 0 1 map world"/>
+<!--
+  <node pkg="tf2_ros" type="static_transform_publisher" name="map_to_world" args="$(eval  arg('initial_pose_x_gazebo') * -1.0) $(eval arg('initial_pose_y_gazebo') * -1.0) 0 0 0 0 1 map world"/>
+-->
+  <node pkg="tf2_ros" type="static_transform_publisher" name="map_to_world" args="1.5 1 0 0 0 0 1 map world"/>
 
 </launch>

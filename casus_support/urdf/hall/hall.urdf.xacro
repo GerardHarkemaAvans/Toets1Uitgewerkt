@@ -29,7 +29,7 @@
   </joint>
 
 
-	<xacro:property name="dummy_thickness" value="0.001" />
+	<xacro:property name="dummy_thickness" value="0.01" />
 	<xacro:property name="dummy_mass" value="100" />
 
   <material name="${hall_prefix}floor_color">
@@ -48,7 +48,7 @@
 		<visual>
 			<geometry>
 			 <box size="${depth} ${width} ${dummy_thickness}"/>
-	        <origin xyz="1 1. -1" rpy="0 0 0" />
+	        <origin xyz="0 0 -${dummy_thickness}" rpy="0 0 0" />
 			</geometry>
 			<material name="${hall_prefix}floor_color"/>
 		</visual>

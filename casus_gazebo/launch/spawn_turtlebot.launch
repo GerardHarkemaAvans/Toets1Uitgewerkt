@@ -11,7 +11,7 @@
 
     <!-- Spawn the turtlebot slightly above the floor level so that it is always spawned on the ground. -->
     <node name="$(arg turtlebot_system)spawner" pkg="gazebo_ros" type="spawn_model" output="screen"
-      args="-x -4 -y -0 -z 0.5 -urdf -unpause -param $(arg turtlebot_system)description -model mobile_base">
+      args="-x -1.5 -y -1 -z 0.1 -urdf -unpause -param $(arg turtlebot_system)description -model mobile_base">
     </node>
 
     <!-- Ensure that the TFs for Turtlebot are made available. -->
