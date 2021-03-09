@@ -6,4 +6,8 @@
   <maintainer email="donnie@todo.todo">donnie</maintainer>
   <license>BSD</license>
   <buildtool_depend>catkin</buildtool_depend>
+
+
+<depend>casus_msgs</depend>
+
 </package>
