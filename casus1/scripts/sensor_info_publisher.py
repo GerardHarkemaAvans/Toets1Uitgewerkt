@@ -37,7 +37,7 @@
 
 import rospy
 from casus_msgs.msg import SensorInformation
-from casus_utilities.sim_sensor_data import distSensorData as getSensorData
+from sim_sensor_data import distSensorData as getSensorData
 
 def sensorInfoPublisher():
     si_publisher = rospy.Publisher('sensor_info', SensorInformation, queue_size = 10)
