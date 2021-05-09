@@ -10,7 +10,9 @@
 
 
     <!-- Links -->
+<!--
 <link name="${pallettruck_parent}"/>
+-->
     <link name="${pallettruck_prefix}origin">
       <visual>
         <geometry>

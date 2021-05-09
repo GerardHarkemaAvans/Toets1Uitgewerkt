@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<robot name="robot_pedestal" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:arg name="pedestal_prefix" default="robot1"/>
+    <xacro:arg name="pedestal_parent" default="world_interface"/>
+    <xacro:arg name="pedestal_height" default="0.95"/>
+
+    <xacro:arg name="x" default="0"/>
+    <xacro:arg name="y" default="0"/>
+    <xacro:arg name="z" default="0"/>
+    <xacro:arg name="R" default="0"/>
+    <xacro:arg name="P" default="0"/>
+    <xacro:arg name="Y" default="0"/>
+
+    <link name="world_interface"/>
+    <!-- URDF -->
+    <xacro:include filename="$(find casus_support)/urdf/robot_pedestal/robot_pedestal.urdf.xacro"/>
+    <xacro:robot_pedestal_urdf pedestal_prefix="$(arg pedestal_prefix)" pedestal_parent="$(arg pedestal_parent)" pedestal_height="$(arg pedestal_height)">
+    <origin xyz="$(arg x) $(arg y) $(arg z)" rpy="$(arg R) $(arg P) $(arg Y)"/>
+    </xacro:robot_pedestal_urdf>
+
+    <!-- Gazebo -->
+    <xacro:include filename="$(find casus_support)/urdf/robot_pedestal/robot_pedestal.gazebo.xacro"/>
+    </robot>

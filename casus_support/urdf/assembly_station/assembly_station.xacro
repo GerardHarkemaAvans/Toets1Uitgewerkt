@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<robot name="assembly_station" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:arg name="assembly_station_prefix" default="assembly_station_"/>
+  <xacro:arg name="assembly_station_parent" default="world_interface"/>
+
+  <xacro:arg name="x" default="0"/>
+  <xacro:arg name="y" default="0"/>
+  <xacro:arg name="z" default="0"/>
+  <xacro:arg name="R" default="0"/>
+  <xacro:arg name="P" default="0"/>
+  <xacro:arg name="Y" default="0"/>
+
+  <link name="world_interface" />
+
+  <!-- URDF -->
+  <xacro:include filename="$(find casus_support)/urdf/assembly_station/assembly_station.urdf.xacro"/>
+  <xacro:assembly_station_urdf assembly_station_prefix="$(arg assembly_station_prefix)" assembly_station_parent="$(arg assembly_station_parent)">
+     <origin xyz="$(arg x) $(arg y) $(arg z)" rpy="$(arg R) $(arg P) $(arg Y)"/>
+  </xacro:assembly_station_urdf>
+
+  <!-- Gazebo -->
+  <xacro:include filename="$(find casus_support)/urdf/assembly_station/assembly_station.gazebo.xacro"/>
+
+</robot>

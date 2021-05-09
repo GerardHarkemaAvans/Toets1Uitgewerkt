@@ -2,8 +2,8 @@
 <robot name="workshop_urdf" xmlns:xacro="http://www.ros.org/wiki/xacro">
     <xacro:macro name="workshop_urdf" params="workshop_parent">
 
-    <!-- Links -->
     <link name="world_interface"/>
+    <!-- Links -->
     <link name="workshop">
       <visual>
         <geometry>

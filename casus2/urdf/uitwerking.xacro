@@ -1,0 +1,60 @@
+<?xml version="1.0" ?>
+<robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- world -->
+    <link name="world" />
+  <!-- workshop -->
+  <xacro:include filename="$(find casus_support)/urdf/workshop/workshop.urdf.xacro"/>
+  <xacro:workshop_urdf workshop_parent="world"/>
+
+  <!-- hall -->
+  <xacro:include filename="$(find casus_support)/urdf/hall/hall.urdf.xacro"/>
+  <xacro:hall_urdf hall_parent="world"  hall_prefix="hall_" >
+    <origin xyz="-2.5 0 0.0" rpy="0 0 0"/>
+  </xacro:hall_urdf>
+
+    <!-- Mobile Computer -->
+    <xacro:include filename="$(find casus_support)/urdf/computer_mobile/computer.urdf.xacro"/>
+    <xacro:computer_urdf computer_parent="world" computer_prefix="comp_mobile_" >
+    <origin xyz="-5 0 0" rpy="0 0 2.1"/>
+    </xacro:computer_urdf>
+
+
+  <link name="robot1_pedestal_link">
+    <visual>
+      <origin xyz="0 0 0.4" />
+      <geometry>
+        <box size="0.4 0.4 0.8" />
+      </geometry>
+      <material name="robot1_pedestal_color">
+        <color rgba="0 ${40/255} ${134/255} 1" />
+      </material>
+    </visual>
+  </link>
+  
+  <joint name="world_pedestal_joint" type="fixed">
+    <origin xyz="-4 -1.5 0" />
+    <parent link="world" />
+    <child link="robot1_pedestal_link" />
+  </joint>
+  
+  <!-- Plaats hier de macro voor de Fanuc m10ia robot -->
+  <xacro:include filename="$(find casus2)/urdf/robot/m10ia/m10ia_macro.xacro"/>
+  <xacro:fanuc_m10ia prefix="robot1_" />
+  <joint name="robot1_pedestal_joint" type="fixed">
+    <parent link="robot1_pedestal_link" />
+    <child link="robot1_base_link" />
+    <origin xyz="0 0 0.80" rpy="0 0 ${radians(180)}" />
+  </joint>
+  
+  <!-- Plaats hier de macro voor de gripper -->
+  <!-- Vacuum Gripper1 -->
+  <xacro:include filename="$(find casus_support)/urdf/vacuum_gripper/vacuum_gripper.urdf.xacro"/>
+  <xacro:vacuum_gripper_urdf prefix="vacuum_gripper1_" joint_prefix="vacuum_gripper1_joint"/>
+  <joint name="gripper1_to_robot1" type="fixed">
+    <parent link="robot1_tool0" />
+    <child link="vacuum_gripper1_base_link" />
+  </joint>
+  
+
+</robot>

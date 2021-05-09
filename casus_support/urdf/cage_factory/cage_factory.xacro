@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<robot name="cage_factory" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:arg name="cage_factory_prefix" default="cage_factory_"/>
+  <xacro:arg name="cage_factory_parent" default="world_interface"/>
+
+  <xacro:arg name="x" default="0"/>
+  <xacro:arg name="y" default="0"/>
+  <xacro:arg name="z" default="0"/>
+  <xacro:arg name="R" default="0"/>
+  <xacro:arg name="P" default="0"/>
+  <xacro:arg name="Y" default="0"/>
+
+  <link name="world_interface" />
+  <!-- URDF -->
+  <xacro:include filename="$(find casus_support)/urdf/cage_factory/cage_factory.urdf.xacro"/>
+  <xacro:cage_factory_urdf cage_factory_prefix="$(arg cage_factory_prefix)" cage_factory_parent="$(arg cage_factory_parent)">
+     <origin xyz="$(arg x) $(arg y) $(arg z)" rpy="$(arg R) $(arg P) $(arg Y)"/>
+  </xacro:cage_factory_urdf>
+
+  <!-- Gazebo -->
+  <xacro:include filename="$(find casus_support)/urdf/cage_factory/cage_factory.gazebo.xacro"/>
+</robot>

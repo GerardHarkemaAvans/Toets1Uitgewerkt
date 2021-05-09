@@ -10,7 +10,9 @@
 
 
     <!-- Links -->
+<!--
 <link name="${forklift_parent}"/>
+-->
     <link name="${forklift_prefix}origin">
       <visual>
         <geometry>

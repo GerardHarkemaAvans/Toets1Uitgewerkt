@@ -2,7 +2,7 @@
 
 # This code has been adapted from the ROS Wiki actionlib tutorials to the context
 # of this course.
-# (http://wiki.ros.org/casus_msgs/Tutorials)
+# (http://wiki.ros.org/hrwros_msgs/Tutorials)
 
 import rospy
 

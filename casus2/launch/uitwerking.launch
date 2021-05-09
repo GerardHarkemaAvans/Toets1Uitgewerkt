@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<launch>
+  <param name="robot_description" command="$(find xacro)/xacro '$(find casus2)/urdf/uitwerking.xacro'" />
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+  <!-- Normally, we would create a separate file and include that, but let's not complicate things -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+    <param name="use_gui" value="true" />
+    <rosparam>
+     zeros:
+       robot1_joint_1             : 0.3
+       robot1_joint_2             : 0.3
+       robot1_joint_3             : 0.3
+       robot1_joint_4             : 0.3
+       robot1_joint_5             : 0.3
+       robot1_joint_6             : 0.3 
+    </rosparam>
+  </node>
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find casus2)/config/rviz_config3.rviz" required="true" />
+</launch>

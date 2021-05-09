@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<robot name="computer" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:arg name="computer_prefix" default="computer_"/>
+  <xacro:arg name="computer_parent" default="world_interface"/>
+
+  <xacro:arg name="x" default="0"/>
+  <xacro:arg name="y" default="0"/>
+  <xacro:arg name="z" default="0"/>
+  <xacro:arg name="R" default="0"/>
+  <xacro:arg name="P" default="0"/>
+  <xacro:arg name="Y" default="0"/>
+
+  <link name="world_interface" />
+
+
+  <!-- URDF -->
+  <xacro:include filename="$(find casus_support)/urdf/computer_mobile/computer.urdf.xacro"/>
+  <xacro:computer_urdf computer_prefix="$(arg computer_prefix)" computer_parent="$(arg computer_parent)">
+     <origin xyz="$(arg x) $(arg y) $(arg z)" rpy="$(arg R) $(arg P) $(arg Y)"/>
+  </xacro:computer_urdf>
+
+  <!-- Gazebo -->
+  <xacro:include filename="$(find casus_support)/urdf/computer_mobile/computer.gazebo.xacro"/>
+</robot>

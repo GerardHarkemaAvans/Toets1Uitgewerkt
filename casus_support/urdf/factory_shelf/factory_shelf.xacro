@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<robot name="factory_shelf" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:arg name="factory_shelf_prefix" default="factory_shelf_"/>
+  <xacro:arg name="factory_shelf_parent" default="world_interface"/>
+
+  <xacro:arg name="x" default="0"/>
+  <xacro:arg name="y" default="0"/>
+  <xacro:arg name="z" default="0"/>
+  <xacro:arg name="R" default="0"/>
+  <xacro:arg name="P" default="0"/>
+  <xacro:arg name="Y" default="0"/>
+
+  <link name="world_interface" />
+
+  <!-- URDF -->
+  <xacro:include filename="$(find casus_support)/urdf/factory_shelf/factory_shelf.urdf.xacro"/>
+  <xacro:factory_shelf_urdf factory_shelf_prefix="$(arg factory_shelf_prefix)" factory_shelf_parent="$(arg factory_shelf_parent)">
+     <origin xyz="$(arg x) $(arg y) $(arg z)" rpy="$(arg R) $(arg P) $(arg Y)"/>
+  </xacro:factory_shelf_urdf>
+
+  <!-- Gazebo -->
+  <xacro:include filename="$(find casus_support)/urdf/factory_shelf/factory_shelf.gazebo.xacro"/>
+</robot>

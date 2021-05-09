@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<robot name="assembly_station_urdf" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="assembly_station_urdf" params="assembly_station_parent assembly_station_prefix *origin">
+
+
+  <joint name="${assembly_station_prefix}joint" type="fixed">
+    <xacro:insert_block name="origin" />
+    <parent link="${assembly_station_parent}"/>
+    <child link="${assembly_station_prefix}origin"/>
+  </joint>
+
+
+    <!-- Links -->
+<!--
+<link name="${assembly_station_parent}"/>
+-->
+    <link name="${assembly_station_prefix}origin">
+      <visual>
+        <geometry>
+          <mesh filename="package://casus_support/meshes/assembly_station/meshes/assembly_station.dae" scale="1.1 1.1 1.1"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://casus_support/meshes/assembly_station/meshes/assembly_station.dae" scale="1.1 1.1 1.1"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <inertia ixx="1.0" ixy="0" ixz="0"
+                 iyy="1.0" iyz="0"
+                 izz="1.0" />
+        <mass value="100" />
+      </inertial>
+    </link>
+  </xacro:macro>
+</robot>

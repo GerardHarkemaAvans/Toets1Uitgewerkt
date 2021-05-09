@@ -6,9 +6,9 @@
     <xacro:property name="height" value="0.050"/>
 
     <joint name="${prefix}logical_camera_joint" type="fixed">
-	<xacro:insert_block name="origin" />
-	<parent link="${logical_camera_parent}"/>
-	<child link="${prefix}base_link"/>
+    <xacro:insert_block name="origin" />
+    <parent link="${logical_camera_parent}"/>
+    <child link="${prefix}base_link"/>
     </joint>
 
     <!-- link list -->

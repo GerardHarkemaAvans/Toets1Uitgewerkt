@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<robot name="computer_urdf" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="computer_urdf" params="computer_parent computer_prefix *origin">
+
+
+  <joint name="${computer_prefix}joint" type="fixed">
+    <xacro:insert_block name="origin" />
+    <parent link="${computer_parent}"/>
+    <child link="${computer_prefix}origin"/>
+  </joint>
+
+
+    <!-- Links -->
+<!--
+<link name="${computer_parent}"/>
+-->
+    <link name="${computer_prefix}origin">
+      <visual>
+        <geometry>
+          <mesh filename="package://casus_support/meshes/computer_desktop/meshes/computer.dae" scale="0.01 0.01 0.01"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://casus_support/meshes/computer_desktop/meshes/computer.dae" scale="0.01 0.01 0.01"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <inertia ixx="1.0" ixy="0" ixz="0"
+                 iyy="1.0" iyz="0"
+                 izz="1.0" />
+        <mass value="100" />
+      </inertial>
+    </link>
+  </xacro:macro>
+</robot>
