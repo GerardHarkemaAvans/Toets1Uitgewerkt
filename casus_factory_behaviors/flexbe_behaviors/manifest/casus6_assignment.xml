@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<behavior name="Uitwerking">
+<behavior name="casus6_assignment">
 
-	<executable package_path="flexbe_behaviors.uitwerking_sm" class="UitwerkingSM" />
+	<executable package_path="flexbe_behaviors.casus6_assignment_sm" class="casus6_assignmentSM" />
 	<tagstring></tagstring>
 	<author>Gerard Harkema</author>
-	<date>22 februari 2020</date>
+	<date>31 maart 2021</date>
 	<description>
-		Uitwerking van Flexbe machine
+		Flexbe machine
 	</description>
 
 
