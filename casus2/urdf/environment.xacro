@@ -3,6 +3,12 @@
 
   <!-- world -->
   <link name="world" />
+ 
+   <!-- world to world_interface. -->
+  <joint name="world_to_world_interface" type="fixed">
+    <parent link="world" />
+    <child link="world_interface" />
+  </joint> 
   
   <!-- workshop -->
   <xacro:include filename="$(find casus_support)/urdf/workshop/workshop.urdf.xacro"/>

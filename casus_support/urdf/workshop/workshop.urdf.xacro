@@ -3,6 +3,7 @@
     <xacro:macro name="workshop_urdf" params="workshop_parent">
 
     <link name="world_interface"/>
+
     <!-- Links -->
     <link name="workshop">
       <visual>
@@ -23,10 +24,12 @@
       </inertial>
     </link>
 
+
     <joint name="workshop_to_world_interface" type="fixed">
       <parent link="${workshop_parent}" />
       <child link="workshop" />
       <origin xyz="0 0 0" rpy="0 0 -${radians(90)}" />
     </joint>
+
   </xacro:macro>
 </robot>
