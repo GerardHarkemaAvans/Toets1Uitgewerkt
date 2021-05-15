@@ -8,8 +8,8 @@
 ###########################################################
 
 from flexbe_core import Behavior, Autonomy, OperatableStateMachine, ConcurrencyContainer, PriorityContainer, Logger
-from casus_factory_states.dummy_state import DummyState
-from casus_factory_states.vacuum_gripper_control_state import VacuumGripperControlState
+from casus_factory_flexbe_states.dummy_state import DummyState
+from casus_factory_flexbe_states.vacuum_gripper_control_state import VacuumGripperControlState
 from flexbe_manipulation_states.srdf_state_to_moveit import SrdfStateToMoveit as flexbe_manipulation_states__SrdfStateToMoveit
 from flexbe_states.wait_state import WaitState
 # Additional imports can be added inside the following tags

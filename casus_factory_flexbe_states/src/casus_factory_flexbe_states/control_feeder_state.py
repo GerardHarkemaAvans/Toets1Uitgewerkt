@@ -32,52 +32,50 @@
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 #
-# Authors: the casus mooc instructors
+# Authors: the demo mooc instructors
 
 import rospy
 
 from flexbe_core import EventState, Logger
 from flexbe_core.proxy import ProxyServiceCaller
 
-from geometry_msgs.msg import PoseStamped
-
-from gazebo_msgs.srv import GetModelState, GetModelStateRequest, GetModelStateResponse
+from std_srvs.srv import Empty, EmptyRequest
 
 '''
 
 Created on Sep 5 2018
 
-@author: casus mooc instructors
+@author: demo mooc instructors
 
 '''
 
-class LocateFactoryDeviceState(EventState):
+class ControlFeederState(EventState):
 	'''
-	State to get the exact location of the turtlebot in the factory simulation of the MOOC "Hello (Real) World with ROS"
+	State to start and stop the feeder in the conveyor belt in the factory simulation of the MOOC "Hello (Real) World with ROS" 
 
-	-- model_name 		string				Name of the model (or link) in Gazebo
-	-- output_frame_id		string			Name of the reference frame in which the pose will be output
+	-- activation 		bool 	If 'true' the state instance starts the feeder, otherwise it stops it
 
-	#> pose					PoseStamped		pose of the factory device in output_frame_id
 
-	<= succeeded
-	<= failed
+	<= succeeded 			The feeder was succesfully started or stopped.
+	<= failed 			There was a problem controlling the feeder.
 
 	'''
 
-	def __init__(self, model_name, output_frame_id):
+	def __init__(self, activation):
 		# Declare outcomes, input_keys, and output_keys by calling the super constructor with the corresponding arguments.
-		super(LocateFactoryDeviceState, self).__init__(outcomes = ['succeeded', 'failed'], output_keys = ['pose'])
+		super(ControlFeederState, self).__init__(outcomes = ['succeeded', 'failed'])
 
 		# Store state parameter for later use.
-		self._failed = True
+		self._activation = activation
 
 		# initialize service proxy
-		self._srv_name = '/gazebo/get_model_state'
-		self._srv = ProxyServiceCaller({self._srv_name: GetModelState})
-		self._srv_req = GetModelStateRequest()
-		self._srv_req.model_name = model_name  # TODO: change parameter name
-		self._srv_req.relative_entity_name = output_frame_id  # TODO: change parameter name
+		if self._activation:
+			self._srv_name = '/start_spawn'
+		else:
+			self._srv_name = '/stop_spawn'
+
+		self._srv = ProxyServiceCaller({self._srv_name: Empty})
+		self._srv_req = EmptyRequest()
 
 	def execute(self, userdata):
 		# This method is called periodically while the state is active.
@@ -87,14 +85,6 @@ class LocateFactoryDeviceState(EventState):
 		if self._failed:
 			return 'failed'
 		else:
-			# TODO: check 'success' field for actual success (service call could have
-			#       succeeded, but looking up the pose inside gazebo could have failed).
-
-			tbp = PoseStamped()
-			tbp.header = self._srv_result.header
-			tbp.pose = self._srv_result.pose
-
-			userdata.pose = tbp
 			return 'succeeded'
 
 
@@ -107,7 +97,7 @@ class LocateFactoryDeviceState(EventState):
 			self._failed = False
 
 		except Exception as e:
-			Logger.logwarn('Could not get pose')
+			Logger.logwarn('Could not update feeder status')
 			rospy.logwarn(str(e))
 			self._failed = True
 

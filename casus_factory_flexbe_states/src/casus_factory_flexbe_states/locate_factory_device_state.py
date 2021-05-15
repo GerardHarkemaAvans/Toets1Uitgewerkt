@@ -32,104 +32,84 @@
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 #
-# Authors: the casus mooc instructors
+# Authors: the demo mooc instructors
 
 import rospy
-import rostopic
-import inspect
-
-import tf2_ros
-import tf2_geometry_msgs
 
 from flexbe_core import EventState, Logger
-from geometry_msgs.msg import Pose, PoseStamped
-from casus_gazebo.msg import LogicalCameraImage, Model
-from flexbe_core.proxy import ProxySubscriberCached
+from flexbe_core.proxy import ProxyServiceCaller
+
+from geometry_msgs.msg import PoseStamped
+
+from gazebo_msgs.srv import GetModelState, GetModelStateRequest, GetModelStateResponse
 
 '''
 
 Created on Sep 5 2018
 
-@author: casus mooc instructors
+@author: demo mooc instructors
 
 '''
 
-class DetectPartCameraState(EventState):
+class LocateFactoryDeviceState(EventState):
 	'''
-	State to detect the pose of the part with any of the cameras in the factory simulation of the MOOC "Hello (Real) World with ROS"
+	State to get the exact location of the turtlebot in the factory simulation of the MOOC "Hello (Real) World with ROS"
 
-	-- ref_frame		string		reference frame for the part pose output key
-  	-- camera_topic		string		the topic name for the camera to detect the part
-	-- camera_frame 	string		frame of the camera
-	-- part				string      part type to detect
+	-- model_name 		string				Name of the model (or link) in Gazebo
+	-- output_frame_id		string			Name of the reference frame in which the pose will be output
 
-	#> pose			PoseStamped	Pose of the detected part
+	#> pose					PoseStamped		pose of the factory device in output_frame_id
 
-	<= continue 				if the pose of the part has been succesfully obtained
-	<= failed 				otherwise
+	<= succeeded
+	<= failed
 
 	'''
 
-	def __init__(self, ref_frame, camera_topic, camera_frame, part):
+	def __init__(self, model_name, output_frame_id):
 		# Declare outcomes, input_keys, and output_keys by calling the super constructor with the corresponding arguments.
-		super(DetectPartCameraState, self).__init__(outcomes = ['continue', 'failed'], output_keys = ['pose'])
-		self.ref_frame = ref_frame
-		self._topic = camera_topic
-		self._camera_frame = camera_frame
-		self._part = part 
-		self._connected = False
-		self._failed = False
+		super(LocateFactoryDeviceState, self).__init__(outcomes = ['succeeded', 'failed'], output_keys = ['pose'])
 
-		# tf to transfor the object pose
-		self._tf_buffer = tf2_ros.Buffer(rospy.Duration(10.0)) #tf buffer length
-		self._tf_listener = tf2_ros.TransformListener(self._tf_buffer)
+		# Store state parameter for later use.
+		self._failed = True
 
-		# Subscribe to the topic for the logical camera
-		(msg_path, msg_topic, fn) = rostopic.get_topic_type(self._topic)
-
-		if msg_topic == self._topic:
-			msg_type = self._get_msg_from_path(msg_path)
-			self._sub = ProxySubscriberCached({self._topic: msg_type})
-			self._connected = True
-		else:
-			Logger.logwarn('Topic %s for state %s not yet available.\nFound: %s\nWill try again when entering the state...' % (self._topic, self.name, str(msg_topic)))
-
+		# initialize service proxy
+		self._srv_name = '/gazebo/get_model_state'
+		self._srv = ProxyServiceCaller({self._srv_name: GetModelState})
+		self._srv_req = GetModelStateRequest()
+		self._srv_req.model_name = model_name  # TODO: change parameter name
+		self._srv_req.relative_entity_name = output_frame_id  # TODO: change parameter name
 
 	def execute(self, userdata):
 		# This method is called periodically while the state is active.
 		# Main purpose is to check state conditions and trigger a corresponding outcome.
 		# If no outcome is returned, the state will stay active.
-		if not self._connected:
-			userdata.pose = None
-			return 'failed'
 
 		if self._failed:
-			userdata.pose = None
 			return 'failed'
+		else:
+			# TODO: check 'success' field for actual success (service call could have
+			#       succeeded, but looking up the pose inside gazebo could have failed).
 
-		if self._sub.has_msg(self._topic):
-			message = self._sub.get_last_msg(self._topic)
-			for model in message.models:
-				if model.type == self._part:
-					pose = PoseStamped()
-					pose.pose = model.pose
-					pose.header.frame_id = self._camera_frame
-					pose.header.stamp = rospy.Time.now()
-					# Transform the pose to desired output frame
-					pose = tf2_geometry_msgs.do_transform_pose(pose, self._transform)
-					userdata.pose = pose
-					return 'continue'
+			tbp = PoseStamped()
+			tbp.header = self._srv_result.header
+			tbp.pose = self._srv_result.pose
+
+			userdata.pose = tbp
+			return 'succeeded'
+
 
 	def on_enter(self, userdata):
 		# This method is called when the state becomes active, i.e. a transition from another state to this one is taken.
 		# It is primarily used to start actions which are associated with this state.
 
-		# Get transform between camera and robot1_base
 		try:
-			self._transform = self._tf_buffer.lookup_transform(self.ref_frame, self._camera_frame, rospy.Time(0), rospy.Duration(1.0))
+			self._srv_result = self._srv.call(self._srv_name, self._srv_req)
+			self._failed = False
+
 		except Exception as e:
-			Logger.logwarn('Could not transform pose: ' + str(e))
-		 	self._failed = True
+			Logger.logwarn('Could not get pose')
+			rospy.logwarn(str(e))
+			self._failed = True
 
 
 	def on_exit(self, userdata):
@@ -150,16 +130,3 @@ class DetectPartCameraState(EventState):
 		# Use this event to clean up things like claimed resources.
 
 		pass # Nothing to do
-
-
-	def _get_msg_from_path(self, msg_path):
-		'''
-		Created on 11.06.2013
-
-		@author: Philipp Schillinger
-		'''
-		msg_import = msg_path.split('/')
-		msg_module = '%s.msg' % (msg_import[0])
-		package = __import__(msg_module, fromlist=[msg_module])
-		clsmembers = inspect.getmembers(package, lambda member: inspect.isclass(member) and member.__module__.endswith(msg_import[1]))
-		return clsmembers[0][1]

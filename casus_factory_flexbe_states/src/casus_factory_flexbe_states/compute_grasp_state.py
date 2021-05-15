@@ -32,7 +32,7 @@
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 #
-# Authors: the casus mooc instructors
+# Authors: the demo mooc instructors
 
 import rospy
 import sensor_msgs
@@ -59,7 +59,7 @@ import actionlib
 '''
 Created on Sep 5 2018
 
-@author: casus mooc instructors
+@author: demo mooc instructors
 
 This state provides the joint configuration to grasp the box in the factory simulation of the MOOC "Hello (Real) World with ROS", given the pose of the box as provided by the DetectPartCameraState
 '''

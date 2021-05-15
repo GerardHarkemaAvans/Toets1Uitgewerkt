@@ -32,50 +32,48 @@
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 #
-# Authors: the casus mooc instructors
+# Authors: the demo mooc instructors
 
 import rospy
 
 from flexbe_core import EventState, Logger
 from flexbe_core.proxy import ProxyServiceCaller
 
-from std_srvs.srv import Empty, EmptyRequest
+from casus_gazebo.srv import ConveyorBeltControl, ConveyorBeltControlRequest
+from casus_gazebo.msg import ConveyorBeltState
 
 '''
 
 Created on Sep 5 2018
 
-@author: casus mooc instructors
+@author: demo mooc instructors
 
 '''
 
-class ControlFeederState(EventState):
+class SetConveyorPowerState(EventState):
 	'''
-	State to start and stop the feeder in the conveyor belt in the factory simulation of the MOOC "Hello (Real) World with ROS" 
+	State to update the speed of the conveyor belt through a service call (0 to stop it, 100 max), in the factory simulation of the MOOC "Hello (Real) World with ROS"
 
-	-- activation 		bool 	If 'true' the state instance starts the feeder, otherwise it stops it
+	-- stop 		bool 	If 'true' the state instance stops the conveyor belt, ignoring the speed inputkey
 
+	># speed		float	Value to set the speed of the conveyor belt.
 
-	<= succeeded 			The feeder was succesfully started or stopped.
-	<= failed 			There was a problem controlling the feeder.
+	<= succeeded 			Speed of the conveyor belt has been succesfully set.
+	<= failed 				There was a problem setting the speed.
 
 	'''
 
-	def __init__(self, activation):
+	def __init__(self, stop):
 		# Declare outcomes, input_keys, and output_keys by calling the super constructor with the corresponding arguments.
-		super(ControlFeederState, self).__init__(outcomes = ['succeeded', 'failed'])
+		super(SetConveyorPowerState, self).__init__(outcomes = ['succeeded', 'failed'], input_keys = ['speed'])
 
 		# Store state parameter for later use.
-		self._activation = activation
+		self._stop = stop
 
 		# initialize service proxy
-		if self._activation:
-			self._srv_name = '/start_spawn'
-		else:
-			self._srv_name = '/stop_spawn'
+		self._srv_name = '/demo/conveyor/control'
+		self._srv = ProxyServiceCaller({self._srv_name: ConveyorBeltControl})
 
-		self._srv = ProxyServiceCaller({self._srv_name: Empty})
-		self._srv_req = EmptyRequest()
 
 	def execute(self, userdata):
 		# This method is called periodically while the state is active.
@@ -84,20 +82,30 @@ class ControlFeederState(EventState):
 
 		if self._failed:
 			return 'failed'
-		else:
+
+		if self._srv_result.success is True:
 			return 'succeeded'
+		else:
+			return 'failed'
 
 
 	def on_enter(self, userdata):
 		# This method is called when the state becomes active, i.e. a transition from another state to this one is taken.
 		# It is primarily used to start actions which are associated with this state.
+		self.speed = float(userdata.speed)
 
+		# create service request depending on activation parameter and userdata
+		self._srv_req = ConveyorBeltControlRequest()
+		if self._stop:
+			self._srv_req.state.power = 0.0
+		else:
+			self._srv_req.state.power = self.speed
 		try:
 			self._srv_result = self._srv.call(self._srv_name, self._srv_req)
 			self._failed = False
 
 		except Exception as e:
-			Logger.logwarn('Could not update feeder status')
+			Logger.logwarn('Could not update conveyor belt speed')
 			rospy.logwarn(str(e))
 			self._failed = True
 

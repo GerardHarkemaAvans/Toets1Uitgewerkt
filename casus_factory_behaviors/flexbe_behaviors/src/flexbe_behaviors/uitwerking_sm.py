@@ -8,10 +8,10 @@
 ###########################################################
 
 from flexbe_core import Behavior, Autonomy, OperatableStateMachine, ConcurrencyContainer, PriorityContainer, Logger
-from casus_factory_states.compute_grasp_state import ComputeGraspState
-from casus_factory_states.detect_part_camera_state import DetectPartCameraState
-from casus_factory_states.moveit_cartesian_to_joints_dyn_state import MoveitCartesianToJointsDynState
-from casus_factory_states.vacuum_gripper_control_state import VacuumGripperControlState
+from casus_factory_flexbe_states.compute_grasp_state import ComputeGraspState
+from casus_factory_flexbe_states.detect_part_camera_state import DetectPartCameraState
+from casus_factory_flexbe_states.moveit_cartesian_to_joints_dyn_state import MoveitCartesianToJointsDynState
+from casus_factory_flexbe_states.vacuum_gripper_control_state import VacuumGripperControlState
 from flexbe_manipulation_states.moveit_to_joints_dyn_state import MoveitToJointsDynState
 from flexbe_manipulation_states.srdf_state_to_moveit import SrdfStateToMoveit as flexbe_manipulation_states__SrdfStateToMoveit
 from flexbe_states.wait_state import WaitState

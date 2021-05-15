@@ -32,48 +32,48 @@
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 #
-# Authors: the casus mooc instructors
+# Authors: the demo mooc instructors
 
 import rospy
 
 from flexbe_core import EventState, Logger
 from flexbe_core.proxy import ProxyServiceCaller
 
-from casus_gazebo.srv import ConveyorBeltControl, ConveyorBeltControlRequest
-from casus_gazebo.msg import ConveyorBeltState
+from casus_gazebo.srv import VacuumGripperControl, VacuumGripperControlRequest
 
 '''
 
 Created on Sep 5 2018
 
-@author: casus mooc instructors
+@author: demo mooc instructors
 
 '''
 
-class SetConveyorPowerState(EventState):
+class VacuumGripperControlState(EventState):
 	'''
-	State to update the speed of the conveyor belt through a service call (0 to stop it, 100 max), in the factory simulation of the MOOC "Hello (Real) World with ROS"
+	State to control any suction gripper in the factory simulation of the MOOC "Hello (Real) World with ROS"
 
-	-- stop 		bool 	If 'true' the state instance stops the conveyor belt, ignoring the speed inputkey
+	-- enable	 		bool 		'true' to activates the gripper, 'false' to deactivate it
+	-- service_name		string		topic name for the service corresponding to the gripper to control
 
-	># speed		float	Value to set the speed of the conveyor belt.
-
-	<= succeeded 			Speed of the conveyor belt has been succesfully set.
-	<= failed 				There was a problem setting the speed.
+	<= continue 					if the gripper activation or de-activation has been succesfully achieved
+	<= failed 						otherwise
 
 	'''
 
-	def __init__(self, stop):
+	def __init__(self, enable, service_name):
 		# Declare outcomes, input_keys, and output_keys by calling the super constructor with the corresponding arguments.
-		super(SetConveyorPowerState, self).__init__(outcomes = ['succeeded', 'failed'], input_keys = ['speed'])
-
-		# Store state parameter for later use.
-		self._stop = stop
+		super(VacuumGripperControlState, self).__init__(outcomes = ['continue', 'failed'])
 
 		# initialize service proxy
-		self._srv_name = '/casus/conveyor/control'
-		self._srv = ProxyServiceCaller({self._srv_name: ConveyorBeltControl})
+		self._srv_name = service_name
+		self._srv = ProxyServiceCaller({self._srv_name: VacuumGripperControl})
 
+		self._srv_req = VacuumGripperControlRequest()
+		if enable:
+			self._srv_req.enable = True
+		else:
+			self._srv_req.enable = False
 
 	def execute(self, userdata):
 		# This method is called periodically while the state is active.
@@ -84,28 +84,22 @@ class SetConveyorPowerState(EventState):
 			return 'failed'
 
 		if self._srv_result.success is True:
-			return 'succeeded'
+			return 'continue'
 		else:
+			Logger.logwarn('Could not change gripper state')
 			return 'failed'
 
 
 	def on_enter(self, userdata):
 		# This method is called when the state becomes active, i.e. a transition from another state to this one is taken.
 		# It is primarily used to start actions which are associated with this state.
-		self.speed = float(userdata.speed)
 
-		# create service request depending on activation parameter and userdata
-		self._srv_req = ConveyorBeltControlRequest()
-		if self._stop:
-			self._srv_req.state.power = 0.0
-		else:
-			self._srv_req.state.power = self.speed
 		try:
 			self._srv_result = self._srv.call(self._srv_name, self._srv_req)
 			self._failed = False
 
 		except Exception as e:
-			Logger.logwarn('Could not update conveyor belt speed')
+			Logger.logwarn('Could not change gripper state')
 			rospy.logwarn(str(e))
 			self._failed = True
 

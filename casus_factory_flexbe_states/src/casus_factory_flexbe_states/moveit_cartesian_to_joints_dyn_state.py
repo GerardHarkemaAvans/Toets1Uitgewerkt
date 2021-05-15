@@ -32,7 +32,7 @@
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 #
-# Authors: the casus mooc instructors
+# Authors: the demo mooc instructors
 
 import rospy
 import sys
@@ -58,7 +58,7 @@ Created on Sep 5 2018
 
 This is an alternative implementation of the original MoveitToJointsDynState state implementation by Alberto Romayon 10.11.2016
 
-@author: casus mooc instructors
+@author: demo mooc instructors
 
 '''
 

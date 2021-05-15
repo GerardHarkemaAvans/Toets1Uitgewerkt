@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(casus_factory_states)
+project(casus_factory_flexbe_states)
 
 find_package(catkin REQUIRED)
 
@@ -13,7 +13,7 @@ catkin_python_setup()
 # LIBRARIES - The exported libraries from the project
 # CATKIN_DEPENDS - Other catkin projects that this project depends on
 # DEPENDS - Non-catkin CMake projects that this project depends on
-# CFG_EXTRAS - Additional configuration options
+# CFG_EXTRAS - Additional configuration options 
 catkin_package(
     INCLUDE_DIRS src
     LIBRARIES ${PROJECT_NAME})
@@ -24,3 +24,4 @@ catkin_package(
 # install executables
 #install(PROGRAMS bin/hello
 #        DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
